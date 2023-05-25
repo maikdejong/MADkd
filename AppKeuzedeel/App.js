@@ -33,6 +33,14 @@ function Settings({ navigation }) {
           value={theme === 'light'}
           onValueChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           />
+        <Button
+        title="Ga naar Home"
+        onPress={() => navigation.navigate('HomeScreen')}
+      />
+      <Button
+        title="Convert"
+        onPress={() => navigation.navigate('Convert')}
+      />
       </View>
     </ThemeContext.Provider>
   );
@@ -42,6 +50,14 @@ function Convert ({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Hier komt uiteindelijk de converteer functionaliteit</Text>
+      <Button
+        title="Ga naar Home"
+        onPress={() => navigation.navigate('HomeScreen')}
+      />
+      <Button
+        title="Ga naar settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
     </View>
   );
 }
@@ -53,7 +69,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen 
-          name="Home" 
+          name="HomeScreen" 
           component={HomeScreen} />
         <Stack.Screen 
           name="Settings" 
