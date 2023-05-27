@@ -7,8 +7,9 @@ import { ThemeContext } from "./src/context/ThemeContext";
 import { myColors } from "./src/styles/Colors";
 
 function HomeScreen({ navigation }) {
+  const [theme, setTheme] = useState('light');
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
       <Text>Homepagina</Text>
       <Button
         title="Ga naar settings"
@@ -47,8 +48,9 @@ function Settings({ navigation }) {
 }
 
 function Convert ({ navigation }) {
+  const [theme, setTheme] = useState('light');
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
       <Text>Hier komt uiteindelijk de converteer functionaliteit</Text>
       <Button
         title="Ga naar Home"
@@ -68,6 +70,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        
         <Stack.Screen 
           name="HomeScreen" 
           component={HomeScreen} />
@@ -94,5 +97,5 @@ const styles = StyleSheet.create({
 
   text: {
     color: 'black',
-  }
+  },
 });
