@@ -1,30 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Switch, Button } from "react-native";
+import { StyleSheet, Text, View, Switch, Button, } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeContext } from "./src/context/ThemeContext";
 import { myColors } from "./src/styles/Colors";
 
-function HomeScreen({ navigation }) {
-  const [theme, setTheme] = useState('light');
-  return (
-    <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
-      <Text>Homepagina</Text>
-      <Button
-        title="Ga naar settings"
-        onPress={() => navigation.navigate('Settings')}
-      />
-      <Button
-        title="Convert"
-        onPress={() => navigation.navigate('Convert')}
-      />
-    </View>
-  );
-}
 
 function Settings({ navigation }) {
-  const [theme, setTheme] = useState('light');
+  const storedTheme = localStorage.getItem("THEME");
+  const [theme, setTheme] = useState(storedTheme);
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  useEffect(() => {
+    localStorage.setItem("THEME", theme);
+  }, [theme]);
+
   return (
     <ThemeContext.Provider value={theme}>
       <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
@@ -32,7 +22,7 @@ function Settings({ navigation }) {
         <StatusBar style="auto" />
         <Switch
           value={theme === 'light'}
-          onValueChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          onValueChange={toggleTheme}
           />
         <Button
         title="Ga naar Home"
@@ -46,6 +36,27 @@ function Settings({ navigation }) {
     </ThemeContext.Provider>
   );
 }
+
+
+function HomeScreen({ navigation }) {
+  const storedTheme = localStorage.getItem("THEME");
+  const [theme, setTheme] = useState(storedTheme); 
+  return (
+    <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
+      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Homepagina</Text>
+      <Button
+        title="Ga naar settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
+      <Button
+        title="Convert"
+        onPress={() => navigation.navigate('Convert')}
+      />
+    </View>
+  );
+}
+
+
 
 function Convert ({ navigation }) {
   const [theme, setTheme] = useState('light');
@@ -64,13 +75,14 @@ function Convert ({ navigation }) {
   );
 }
 
+
+
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        
         <Stack.Screen 
           name="HomeScreen" 
           component={HomeScreen} />
