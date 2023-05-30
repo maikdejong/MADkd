@@ -23,24 +23,23 @@ function Settings({ navigation }) {
         <Switch
           value={theme === 'light'}
           onValueChange={toggleTheme}
-          />
+        />
         <Button
         title="Ga naar Home"
         onPress={() => navigation.navigate('HomeScreen')}
-      />
-      <Button
-        title="Convert"
-        onPress={() => navigation.navigate('Convert')}
-      />
+        />
+        <Button
+          title="Convert"
+          onPress={() => navigation.navigate('Convert')}
+        />
       </View>
     </ThemeContext.Provider>
   );
 }
 
-
 function HomeScreen({ navigation }) {
   const storedTheme = localStorage.getItem("THEME");
-  const [theme, setTheme] = useState(storedTheme); 
+  const [theme] = useState(storedTheme); 
   return (
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
       <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Homepagina</Text>
@@ -56,13 +55,12 @@ function HomeScreen({ navigation }) {
   );
 }
 
-
-
 function Convert ({ navigation }) {
-  const [theme, setTheme] = useState('light');
+  const storedTheme = localStorage.getItem("THEME");
+  const [theme] = useState(storedTheme);
   return (
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
-      <Text>Hier komt uiteindelijk de converteer functionaliteit</Text>
+      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier komt uiteindelijk de converteer functionaliteit</Text>
       <Button
         title="Ga naar Home"
         onPress={() => navigation.navigate('HomeScreen')}
@@ -75,20 +73,18 @@ function Convert ({ navigation }) {
   );
 }
 
-
-
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen 
+          name="Settings" 
+          component={Settings} />
         <Stack.Screen 
           name="HomeScreen" 
           component={HomeScreen} />
-        <Stack.Screen 
-          name="Settings" 
-          component={Settings} />
         <Stack.Screen 
           name="Convert" 
           component={Convert} />
