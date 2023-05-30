@@ -7,7 +7,7 @@ import { ThemeContext } from "./src/context/ThemeContext";
 import { myColors } from "./src/styles/Colors";
 
 
-function Settings({ navigation }) {
+function Homescreen({ navigation }) {
   const storedTheme = localStorage.getItem("THEME");
   const [theme, setTheme] = useState(storedTheme);
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
@@ -25,8 +25,8 @@ function Settings({ navigation }) {
           onValueChange={toggleTheme}
         />
         <Button
-        title="Ga naar Home"
-        onPress={() => navigation.navigate('HomeScreen')}
+        title="Ga naar History"
+        onPress={() => navigation.navigate('History')}
         />
         <Button
           title="Convert"
@@ -37,15 +37,15 @@ function Settings({ navigation }) {
   );
 }
 
-function HomeScreen({ navigation }) {
+function History({ navigation }) {
   const storedTheme = localStorage.getItem("THEME");
   const [theme] = useState(storedTheme); 
   return (
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
-      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Homepagina</Text>
+      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier kan je de bestel/convert geschiedenis bekijken!</Text>
       <Button
-        title="Ga naar settings"
-        onPress={() => navigation.navigate('Settings')}
+        title="Ga naar Home"
+        onPress={() => navigation.navigate('Homescreen')}
       />
       <Button
         title="Convert"
@@ -60,14 +60,14 @@ function Convert ({ navigation }) {
   const [theme] = useState(storedTheme);
   return (
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
-      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier komt uiteindelijk de converteer functionaliteit</Text>
+      <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier komt uiteindelijk de converteer functionaliteit!</Text>
       <Button
         title="Ga naar Home"
         onPress={() => navigation.navigate('HomeScreen')}
       />
       <Button
-        title="Ga naar settings"
-        onPress={() => navigation.navigate('Settings')}
+        title="Ga naar History"
+        onPress={() => navigation.navigate('History')}
       />
     </View>
   );
@@ -80,11 +80,11 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen 
-          name="Settings" 
-          component={Settings} />
+          name="Homescreen" 
+          component={Homescreen} />
         <Stack.Screen 
-          name="HomeScreen" 
-          component={HomeScreen} />
+          name="History" 
+          component={History} />
         <Stack.Screen 
           name="Convert" 
           component={Convert} />
