@@ -111,8 +111,8 @@ function Convert ({ navigation }) {
       <View>
         <SelectList/>
         <Input keyboardType = 'numeric'/> 
-        
         <SelectList/>
+
         <Button
           title="Go Home"
           onPress={() => navigation.navigate('Homescreen')}
