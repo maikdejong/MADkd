@@ -4,8 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeContext } from "./src/context/ThemeContext";
 import { myColors } from "./src/styles/Colors";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Input } from "native-base";
 import SelectList from './SelectList';
+
+const convert = require('convert-units');
 
 
 // `allMeasures` includes all the measures packaged with this library
@@ -107,6 +109,9 @@ function Convert ({ navigation }) {
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
       <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier komt uiteindelijk de converteer functionaliteit!</Text>
       <View>
+        <SelectList/>
+        <Input keyboardType = 'numeric'/> 
+        
         <SelectList/>
         <Button
           title="Go Home"
