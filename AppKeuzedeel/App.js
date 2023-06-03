@@ -4,7 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeContext } from "./src/context/ThemeContext";
 import { myColors } from "./src/styles/Colors";
-import * as SQLite from 'expo-sqlite';
+import { NativeBaseProvider } from "native-base";
+import SelectList from './SelectList';
 
 
 // `allMeasures` includes all the measures packaged with this library
@@ -27,17 +28,19 @@ import * as SQLite from 'expo-sqlite';
 // convert().from('ton').possibilities();
 // // [ 'ons', 'pond', 'g', 'kg' ]
 
-async function openDatabase(pathToDatabaseFile: string): Promise<SQLite.WebSQLDatabase> {
-  if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
-  }
-  await FileSystem.downloadAsync(
-    Asset.fromModule(require(pathToDatabaseFile)).uri,
-    FileSystem.documentDirectory + 'SQLite/MADB.db'
-  );
-  return SQLite.openDatabase('MADB.db');
-}
+// async function openDatabase(pathToDatabaseFile: string): Promise<SQLite.WebSQLDatabase> {
+//   if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
+//     await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+//   }
+//   await FileSystem.downloadAsync(
+//     Asset.fromModule(require(pathToDatabaseFile)).uri,
+//     FileSystem.documentDirectory + 'SQLite/MADB.db'
+//   );
+//   return SQLite.openDatabase('MADB.db');
+// }
 
+// Moet nog ergens een MADB.db file aanmaken, bovenstaande functie fixen (is typescript onzin ofzo, bestand .tsx maken fixt het absoluut niet).
+// Metro.config.js file moet at the root of your project (is misschien al zo who knows)
 
 function Homescreen({ navigation }) {
   const storedTheme = localStorage.getItem("THEME");
@@ -104,6 +107,7 @@ function Convert ({ navigation }) {
     <View style={theme === 'light' ? styles.container : [styles.container, {backgroundColor: myColors.black}]}>
       <Text style={theme === 'light' ? styles.text : [styles.text, {color: 'white'}]}>Hier komt uiteindelijk de converteer functionaliteit!</Text>
       <View>
+        <SelectList/>
         <Button
           title="Go Home"
           onPress={() => navigation.navigate('Homescreen')}
@@ -123,40 +127,42 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen 
-          name="Homescreen" 
-          component={Homescreen} 
-          options={{
-            headerStyle: {
-              backgroundColor: '#143F46',
-            },
-            headerTintColor: '#fff',
-          }}
-        />
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
         <Stack.Screen 
-          name="History" 
-          component={History} 
-          options={{
-            headerStyle: {
-              backgroundColor: '#143F46',
-            },
-            headerTintColor: '#fff',
-          }}
+            name="Homescreen" 
+            component={Homescreen} 
+            options={{
+              headerStyle: {
+                backgroundColor: '#143F46',
+              },
+              headerTintColor: '#fff',
+            }}
           />
-        <Stack.Screen 
-          name="Convert" 
-          component={Convert} 
-          options={{
-            headerStyle: {
-              backgroundColor: '#143F46',
-            },
-            headerTintColor: '#fff',
-          }}
-          />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen 
+            name="History" 
+            component={History} 
+            options={{
+              headerStyle: {
+                backgroundColor: '#143F46',
+              },
+              headerTintColor: '#fff',
+            }}
+            />
+          <Stack.Screen 
+            name="Convert" 
+            component={Convert} 
+            options={{
+              headerStyle: {
+                backgroundColor: '#143F46',
+              },
+              headerTintColor: '#fff',
+            }}
+            />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
 
